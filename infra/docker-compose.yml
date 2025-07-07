@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: personas-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: personas_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "1011:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - personas-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d personas_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongodb:
+    image: mongo:7.0
+    container_name: personas-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: personas_db
+    ports:
+      - "1012:27017"
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+    networks:
+      - personas-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+  mongo_data:
+    driver: local
+  mongo_config:
+    driver: local
+
+networks:
+  personas-network:
+    driver: bridge
