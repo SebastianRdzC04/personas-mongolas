@@ -3,6 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import { createPersonValidator, updatePersonValidator } from '#validators/person'
 import Person from '#models/person'
 import Log from '../mongo_models/Log.js'
+import { Gender } from '#models/person'
 
 
 export default class PeopleController {
@@ -20,14 +21,11 @@ export default class PeopleController {
 
     return response.ok({
       message: 'People retrieved successfully',
-      people: people.map(person => ({
-        id: person.id,
-        firstName: person.firstName,
-        lastName: person.lastName,
-        age: person.age,
-      })),
+      people: people.map(person => (person)),
     })
   }
+
+  
   async show({ params, response, auth }: HttpContext) {
     const person = await Person.findOrFail(params.id)
 
@@ -40,12 +38,7 @@ export default class PeopleController {
 
     return response.ok({
       message: 'Person found',
-      person: {
-        id: person.id,
-        firstName: person.firstName,
-        lastName: person.lastName,
-        age: person.age,
-      },
+      person: person,
     })
   }
 
@@ -57,6 +50,7 @@ export default class PeopleController {
       firstName: payload.firstName,
       lastName: payload.lastName,
       age: payload.age,
+      gender: payload.gender as Gender,
     })
 
     await Log.create({
@@ -86,6 +80,7 @@ export default class PeopleController {
     person.firstName = payload.firstName || person.firstName
     person.lastName = payload.lastName || person.lastName
     person.age = payload.age || person.age
+    person.gender = payload.gender as Gender || person.gender as Gender
 
     await person.save()
 
@@ -120,7 +115,11 @@ export default class PeopleController {
         description: `El usuario ${auth.user?.fullName || 'desconocido'} ha eliminado una persona con ID ${person.id}`,
     })
 
-    return response.noContent()
+    return response.ok(
+      {
+        message: 'Person deleted successfully'
+      }
+    )
   }
 
 

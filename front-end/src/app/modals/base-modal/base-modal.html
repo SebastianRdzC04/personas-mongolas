@@ -1,0 +1,27 @@
+@if (isOpen()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#000000]/70">
+    <div class="animate-fadeIn fixed inset-0" (click)="closeModal()"></div>
+    
+    <div class="relative w-full max-w-lg z-10 animate-slideIn">
+      <div class="bg-[#1e1e2e] rounded-xl shadow-2xl shadow-[#000000]/30 overflow-hidden border border-[#313244]">
+        <!-- Header -->
+        <div class="flex justify-between items-center p-4 border-b border-[#313244]">
+          <h3 class="text-xl font-serif font-bold text-[#cba6f7]">{{ title() }}</h3>
+          <button 
+            (click)="closeModal()"
+            class="text-[#cdd6f4] hover:text-[#f38ba8] transition-colors p-2 rounded-full hover:bg-[#313244]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-4">
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+}

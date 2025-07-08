@@ -1,0 +1,105 @@
+<div class="bg-[#11111b] rounded-lg shadow-xl overflow-hidden">
+  <div class="p-6">
+    <h2 class="text-2xl font-serif font-bold text-[#cba6f7] mb-4 text-center">Actualizar Persona</h2>
+    
+    <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+      <!-- First Name Field -->
+      <div class="mb-4">
+        <label class="block text-[#cdd6f4] text-sm font-medium mb-2" for="firstName">
+          Nombre
+        </label>
+        <input
+          class="w-full px-4 py-3 rounded-md bg-[#313244] text-[#cdd6f4] border-2 border-[#313244] focus:border-[#74c7ec] focus:outline-none transition-all"
+          id="firstName"
+          type="text"
+          formControlName="firstName"
+          placeholder="Juan"
+        >
+        @if (personForm.get('firstName')?.invalid && personForm.get('firstName')?.touched) {
+          <div class="text-[#f38ba8] text-sm mt-1">
+            El nombre es requerido.
+          </div>
+        }
+      </div>
+
+      <!-- Last Name Field -->
+      <div class="mb-4">
+        <label class="block text-[#cdd6f4] text-sm font-medium mb-2" for="lastName">
+          Apellido
+        </label>
+        <input
+          class="w-full px-4 py-3 rounded-md bg-[#313244] text-[#cdd6f4] border-2 border-[#313244] focus:border-[#74c7ec] focus:outline-none transition-all"
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          placeholder="Pérez"
+        >
+        @if (personForm.get('lastName')?.invalid && personForm.get('lastName')?.touched) {
+          <div class="text-[#f38ba8] text-sm mt-1">
+            El apellido es requerido.
+          </div>
+        }
+      </div>
+
+      <!-- Age Field -->
+      <div class="mb-4">
+        <label class="block text-[#cdd6f4] text-sm font-medium mb-2" for="age">
+          Edad
+        </label>
+        <input
+          class="w-full px-4 py-3 rounded-md bg-[#313244] text-[#cdd6f4] border-2 border-[#313244] focus:border-[#74c7ec] focus:outline-none transition-all"
+          id="age"
+          type="number"
+          formControlName="age"
+          placeholder="25"
+        >
+        @if (personForm.get('age')?.invalid && personForm.get('age')?.touched) {
+          <div class="text-[#f38ba8] text-sm mt-1">
+            Por favor, introduce una edad válida.
+          </div>
+        }
+      </div>
+
+      <!-- Gender Field -->
+      <div class="mb-4">
+        <label class="block text-[#cdd6f4] text-sm font-medium mb-2" for="gender">
+          Género
+        </label>
+        <select
+          class="w-full px-4 py-3 rounded-md bg-[#313244] text-[#cdd6f4] border-2 border-[#313244] focus:border-[#74c7ec] focus:outline-none transition-all"
+          id="gender"
+          formControlName="gender"
+        >
+          <option value="" disabled>Selecciona un género</option>
+          <option value="male">Hombre</option>
+          <option value="female">Mujer</option>
+        </select>
+        @if (personForm.get('gender')?.invalid && personForm.get('gender')?.touched) {
+          <div class="text-[#f38ba8] text-sm mt-1">
+            Por favor, selecciona un género.
+          </div>
+        }
+      </div>
+
+      <!-- Error Message -->
+      @if (errorMessage) {
+        <div class="mb-4 p-3 rounded-md bg-[#f38ba8]/10 text-[#f38ba8] text-center">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="personForm.invalid || isLoading"
+        class="w-full bg-[#74c7ec] hover:bg-[#89dceb] text-[#1e1e2e] font-medium py-3 px-4 rounded-md transition-all hover:shadow-lg hover:shadow-[#74c7ec]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        @if (isLoading) {
+          <span>Actualizando...</span>
+        } @else {
+          <span>Actualizar Persona</span>
+        }
+      </button>
+    </form>
+  </div>
+</div>

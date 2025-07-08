@@ -1,0 +1,20 @@
+<header class="bg-[#1e1e2e] shadow-md py-4 px-6 flex justify-between items-center">
+    <div class="flex items-center">
+        <h1 class="text-3xl font-serif font-bold tracking-wider text-[#cba6f7] hover:text-[#f5c2e7] transition-colors">UTT</h1>
+        <p class="text-[#a6adc8] ml-3 italic text-sm">Universidad Tecnológica</p>
+    </div>
+    
+    <button (click)="openCreateModal()" class="bg-[#74c7ec] hover:bg-[#89dceb] text-[#1e1e2e] font-medium py-2 px-5 rounded-md transition-all hover:shadow-lg hover:shadow-[#74c7ec]/20 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        Agregar Persona
+    </button>
+</header>
+
+<!-- Modal for creating a new person -->
+<app-base-modal [isOpen]="isCreateModalOpen" 
+                [title]="'Crear Nueva Persona'" 
+                (close)="closeCreateModal()">
+    <app-create-person-form (personCreated)="handlePersonCreated($event)"></app-create-person-form>
+</app-base-modal>

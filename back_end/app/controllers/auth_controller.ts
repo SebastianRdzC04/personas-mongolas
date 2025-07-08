@@ -29,8 +29,7 @@ export default class AuthController {
     const payload = await loginUserValidator.validate(data)
 
     const user = await User.verifyCredentials(payload.email, payload.password)
-    
-    console.log('User found:', user)
+  
 
     const token = await auth.use('api').createToken(user)
     return response.ok({
