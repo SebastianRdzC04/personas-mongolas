@@ -3,6 +3,7 @@ import { Index } from './pages/index';
 import { Authenticate } from './pages/authenticate/authenticate';
 import { PeopleTable } from './pages/people-table/people-table';
 import { PeopleStats } from './pages/people-stats/people-stats';
+import { PeopleLogs } from './pages/people-logs/people-logs';
 import { authGuard } from './guards/auth-guard';
 import { noAuthGuard } from './guards/no-auth-guard';
 
@@ -17,6 +18,11 @@ export const routes: Routes = [
         component: PeopleTable,
         canActivate: [authGuard]
 
+    },
+    {
+        path: "people-logs",
+        component: PeopleLogs,
+        canActivate: [authGuard]
     },
     {
         path: "people-stats",

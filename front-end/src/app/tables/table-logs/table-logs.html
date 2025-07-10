@@ -1,1 +1,84 @@
-<p>table-logs works!</p>
+<div class="p-6">
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold text-[#cba6f7]">Registro de Actividades</h2>
+    
+    <div class="flex items-center mt-3 sm:mt-0">
+      <span class="text-sm text-[#cdd6f4] mr-2">Mostrar:</span>
+      <select 
+        [ngModel]="pageSizeValue()" 
+        (ngModelChange)="onPageSizeChange($event)" 
+        class="bg-[#313244] text-[#cdd6f4] border border-[#45475a] rounded px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#cba6f7]">
+        @for (size of pageSizeOptions; track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+      <span class="text-sm text-[#cdd6f4] ml-2">por página</span>
+    </div>
+  </div>
+  
+  <div class="bg-[#1e1e2e] shadow-xl rounded-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full">
+        <thead>
+          <tr class="bg-[#313244] text-left">
+            <th class="py-4 px-6 text-[#cdd6f4] font-semibold">ID</th>
+            <th class="py-4 px-6 text-[#cdd6f4] font-semibold">Acción</th>
+            <th class="py-4 px-6 text-[#cdd6f4] font-semibold">Descripción</th>
+            <th class="py-4 px-6 text-[#cdd6f4] font-semibold">Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (log of displayedLogs(); track log.id) {
+            <tr class="border-b border-[#313244] hover:bg-[#313244]/50 transition-colors">
+              <td class="py-4 px-6 text-[#cdd6f4]">{{ log.id }}</td>
+              <td class="py-4 px-6 text-[#cdd6f4]">{{ log.action }}</td>
+              <td class="py-4 px-6 text-[#cdd6f4]">{{ log.description }}</td>
+              <td class="py-4 px-6 text-[#cdd6f4]">{{ formatDate(log.createdAt) }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="py-6 px-6 text-center text-[#cdd6f4]">
+                No hay registros de actividad disponibles.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination Controls -->
+    <div class="flex justify-between items-center p-4 bg-[#181825] border-t border-[#313244]">
+      <span class="text-sm text-[#cdd6f4]">
+        Mostrando {{ displayedLogs().length }} de {{ logs().length }} registros
+      </span>
+      
+      <div class="flex items-center space-x-2">
+        <span class="text-sm text-[#cdd6f4]">
+          Página {{ currentPage() }} de {{ totalPages() }}
+        </span>
+        
+        <div class="flex space-x-1">
+          <button 
+            [disabled]="currentPage() === 1"
+            [class.opacity-50]="currentPage() === 1"
+            (click)="previousPage()" 
+            class="bg-[#313244] hover:bg-[#45475a] text-[#cdd6f4] px-3 py-1 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          
+          <button 
+            [disabled]="currentPage() === totalPages()"
+            [class.opacity-50]="currentPage() === totalPages()"
+            (click)="nextPage()" 
+            class="bg-[#313244] hover:bg-[#45475a] text-[#cdd6f4] px-3 py-1 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
