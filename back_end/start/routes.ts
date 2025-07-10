@@ -33,6 +33,8 @@ router.post('/logout', [AuthController, 'logout'])
 
 router.get('/people', [PeopleController, 'index']).use(middleware.auth({guards: ['api']}))
 
+router.get('/people/logs', [PeopleController, 'viewLogs']).use(middleware.auth({guards: ['api']}))
+
 router.get('/people/:id', [PeopleController, 'show']).use(middleware.auth({guards: ['api']}))
 
 router.post('/people', [PeopleController, 'store']).use(middleware.auth({guards: ['api']}))

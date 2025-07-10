@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, effect, input } from '@angular/core';
+import { Component, ElementRef, ViewChild, effect, input, OnInit, OnDestroy, AfterViewInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Simplified interface for just two values
@@ -14,7 +14,7 @@ interface ChartData {
   standalone: true,
   imports: [CommonModule]
 })
-export class DobleBarChart {
+export class DobleBarChart implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('chartCanvas', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   
   // Change from @Input to input() function
@@ -27,6 +27,7 @@ export class DobleBarChart {
   secondDatasetLabel = input<string>('Dataset 2');
   
   private ctx!: CanvasRenderingContext2D;
+  private resizeTimeout: any = null;
   private chart = {
     padding: { top: 20, right: 20, bottom: 50, left: 60 },
     barColors: ['#4e79a7', '#f28e2c'],
@@ -52,6 +53,7 @@ export class DobleBarChart {
       if (!this.ctx) return;
       
       this.initAnimatedValues();
+      this.resizeCanvas();
       this.drawChart();
       this.animateChart();
     });
@@ -59,9 +61,59 @@ export class DobleBarChart {
   
   ngOnInit(): void {
     this.ctx = this.chartCanvas.nativeElement.getContext('2d')!;
-    this.initAnimatedValues();
-    this.drawChart();
-    this.animateChart();
+  }
+  
+  ngAfterViewInit(): void {
+    // Initialize after view is ready to get correct dimensions
+    setTimeout(() => {
+      this.resizeCanvas();
+      this.initAnimatedValues();
+      this.drawChart();
+      this.animateChart();
+    }, 0);
+  }
+  
+  ngOnDestroy(): void {
+    // Clean up any timers
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+  }
+  
+  @HostListener('window:resize')
+  onResize(): void {
+    // Debounce resize event
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    
+    this.resizeTimeout = setTimeout(() => {
+      this.resizeCanvas();
+      this.drawChart();
+    }, 250);
+  }
+  
+  private resizeCanvas(): void {
+    const canvas = this.chartCanvas.nativeElement;
+    const container = canvas.parentElement;
+    
+    if (!container) return;
+    
+    // Set canvas dimensions based on CSS size
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = canvas.width * (2/3); // Maintain aspect ratio
+    
+    // Adjust bar width and gap based on canvas width
+    this.chart.barWidth = Math.max(30, Math.min(80, canvas.width * 0.15));
+    this.chart.barGap = Math.max(40, Math.min(100, canvas.width * 0.2));
+    
+    // Adjust padding for smaller screens
+    if (canvas.width < 400) {
+      this.chart.padding = { top: 15, right: 15, bottom: 40, left: 40 };
+    } else {
+      this.chart.padding = { top: 20, right: 20, bottom: 50, left: 60 };
+    }
   }
   
   private initAnimatedValues(): void {
@@ -176,6 +228,8 @@ export class DobleBarChart {
     // Draw x-axis labels - now using input signals with ()
     this.ctx.fillStyle = this.chart.textColor;
     this.ctx.textAlign = 'center';
+    this.ctx.font = width < 400 ? '10px Arial' : '12px Arial'; // Smaller font for small screens
+    
     this.ctx.fillText(
       this.firstDatasetLabel(), 
       bar1X + barWidth/2, 
@@ -189,7 +243,7 @@ export class DobleBarChart {
     );
     
     // Draw x-axis label
-    this.ctx.font = 'bold 12px Arial';
+    this.ctx.font = 'bold ' + (width < 400 ? '10px' : '12px') + ' Arial';
     this.ctx.fillText(
       this.xAxisLabel(),
       width / 2,
@@ -198,7 +252,7 @@ export class DobleBarChart {
     
     // Draw chart title
     this.ctx.fillStyle = this.chart.textColor;
-    this.ctx.font = 'bold 14px Arial';
+    this.ctx.font = 'bold ' + (width < 400 ? '12px' : '14px') + ' Arial';
     this.ctx.textAlign = 'center';
     this.ctx.fillText(this.title(), width / 2, padding.top - 5);
   }

@@ -4,6 +4,7 @@ import { Authenticate } from './pages/authenticate/authenticate';
 import { PeopleTable } from './pages/people-table/people-table';
 import { PeopleStats } from './pages/people-stats/people-stats';
 import { authGuard } from './guards/auth-guard';
+import { noAuthGuard } from './guards/no-auth-guard';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,7 @@ export const routes: Routes = [
     },
     {
         path: "auth",
-        component: Authenticate
+        component: Authenticate,
+        canActivate: [noAuthGuard]
     }
 ];

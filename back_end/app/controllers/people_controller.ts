@@ -122,5 +122,19 @@ export default class PeopleController {
     )
   }
 
+  async viewLogs({ response, auth }: HttpContext) {
+    const logs = await Log.find().sort({ createdAt: -1 });
+
+    return response.ok({
+      message: 'Logs retrieved successfully',
+      logs: logs.map(log => ({
+        id: log.id,
+        action: log.action,
+        description: log.description,
+        createdAt: log.createdAt,
+      })),
+    })
+  }
+
 
 }

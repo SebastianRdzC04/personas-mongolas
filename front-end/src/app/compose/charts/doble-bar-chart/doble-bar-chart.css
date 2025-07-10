@@ -5,8 +5,10 @@
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 20px 0;
-  max-width: 800px;
-  position: relative; /* Ensure this is set to relative for absolute positioning inside */
+  max-width: 50vw; /* 50% of viewport width */
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .chart-title {
@@ -30,6 +32,10 @@ canvas {
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
   position: relative; /* Added for positioning context */
   z-index: 1; /* Ensure canvas is above other elements */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/2; /* Maintain a good aspect ratio */
+  display: block;
 }
 
 .chart-legend {
