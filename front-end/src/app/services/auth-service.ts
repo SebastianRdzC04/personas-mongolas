@@ -24,9 +24,17 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    this.http.post<any>(`${this.apiUrl}logout`, {}).subscribe({
+      next: () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.router.navigate(['/auth']);
+      },
+      error: (err) => {
+        console.error('Logout failed', err);
+        // You might want to handle the error or still logout locally
+      }
+    });
   }
 
   isAuthenticated(): boolean {

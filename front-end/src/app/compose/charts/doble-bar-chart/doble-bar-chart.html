@@ -1,0 +1,25 @@
+<div class="chart-container">
+  <h3 class="chart-title">{{ title() }}</h3>
+  
+  <div class="chart-area">
+    <!-- Position y-axis label inside chart area but correctly positioned -->
+    <div class="y-axis-label">{{ yAxisLabel() }}</div>
+    
+    <canvas #chartCanvas width="600" height="400"></canvas>
+    
+    <div class="chart-legend">
+      <div class="legend-item">
+        <span class="color-box first-dataset"></span>
+        <span class="legend-label">{{ firstDatasetLabel() }}</span>
+      </div>
+      <div class="legend-item">
+        <span class="color-box second-dataset"></span>
+        <span class="legend-label">{{ secondDatasetLabel() }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="axis-labels">
+    <div class="x-axis-label">{{ xAxisLabel() }}</div>
+  </div>
+</div>

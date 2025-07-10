@@ -1,0 +1,98 @@
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px 0;
+  max-width: 800px;
+  position: relative; /* Ensure this is set to relative for absolute positioning inside */
+}
+
+.chart-title {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chart-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%; /* Ensure full width */
+}
+
+canvas {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+  position: relative; /* Added for positioning context */
+  z-index: 1; /* Ensure canvas is above other elements */
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(249, 249, 249, 0.7);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 0 15px;
+}
+
+.color-box {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  border-radius: 3px;
+}
+
+.first-dataset {
+  background-color: #4e79a7;
+}
+
+.second-dataset {
+  background-color: #f28e2c;
+}
+
+.legend-label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.axis-labels {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  margin-top: 10px;
+}
+
+/* Fixed y-axis label positioning */
+.y-axis-label {
+  position: absolute;
+  transform: rotate(-90deg);
+  transform-origin: left top;
+  left: 0px; /* Position from left edge */
+  top: 50%; /* Center vertically */
+  font-size: 0.9rem;
+  color: #666;
+  white-space: nowrap;
+  z-index: 2; /* Ensure it's above other elements */
+}
+
+.x-axis-label {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  color: #666;
+}

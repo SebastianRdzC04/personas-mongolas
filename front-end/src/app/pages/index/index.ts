@@ -10,6 +10,7 @@ import { DashboardLayout } from '../../layout/dashboard-layout/dashboard-layout'
   styleUrl: './index.css'
 })
 export class Index {
-  // Modal logic has been moved to the header component
+  // Chart data has been moved to PeopleStats component
 }
+
 

@@ -1,0 +1,19 @@
+<div class="gender-stats-container">
+  @if (isDataLoaded) {
+    <div class="chart-wrapper">
+      <app-doble-bar-chart 
+        [value1]="maleCount"
+        [value2]="femaleCount"
+        [title]="'Distribucion por Genero'"
+        [xAxisLabel]="'Genero'"
+        [yAxisLabel]="'Numero de Personas'"
+        [firstDatasetLabel]="'Hombres'"
+        [secondDatasetLabel]="'Mujeres'">
+      </app-doble-bar-chart>
+    </div>
+  } @else {
+    <div class="loading-message">
+      Loading gender statistics...
+    </div>
+  }
+</div>

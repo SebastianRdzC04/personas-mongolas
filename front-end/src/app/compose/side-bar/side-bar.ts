@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './side-bar.html',
   styleUrl: './side-bar.css'
 })
 export class SideBar {
-  // Component logic can be added here if needed in the future
+  private authService = inject(AuthService);
+  
+  logout(): void {
+    this.authService.logout();
+  }
 }
